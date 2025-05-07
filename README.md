@@ -1,62 +1,68 @@
-# 🧾 Billing System for SwaShrungar Sarees
+# 👋 Hi, I'm Ganesh raut!
 
-A professional, print-ready billing system built using **HTML, CSS, JavaScript, and Bootstrap**. Designed for small businesses like saree shops to generate, calculate, and print customer bills directly from the browser—without needing external software or PDFs.
-
-## ✨ Features
-
-✅ Customer name entry (locked after submission to prevent edits)  
-✅ Dynamic product entry with **quantity, price, and total calculations**  
-✅ Auto-updated **subtotal, tax (5%), and grand total**  
-✅ Live **date & time** display on the bill  
-✅ Printable invoice in a clean, professional format  
-✅ Responsive design using Bootstrap 5  
-✅ One-click **print/save as PDF** using browser print function
+🚀 I'm passionate about **teaching programming languages** and helping beginners and developers learn to code with ease.  
+On this GitHub profile, you will find tutorials, notes, code examples, and resources across various programming languages.
 
 ---
 
-## 📸 Demo Screenshot
+## 📚 Languages I Teach
 
-*(Add a screenshot here if available)*
-
----
-
-## 🛠️ Technologies Used
-
-- **HTML5**
-- **CSS3**
-- **Bootstrap 5.3**
-- **Vanilla JavaScript**
-
----
-
-## 🚀 How to Use
-
-1. Clone or download this repository.
-2. Open `index.html` in your preferred browser.
-3. Enter the **customer name** (can be entered only once).
-4. Add products by specifying **name, quantity, price** and click **Submit**.
-5. View the dynamically generated bill.
-6. Click **Print** to print or save the bill.
+| Language       | Description                                                       | Topics Covered                                     |
+|----------------|-------------------------------------------------------------------|---------------------------------------------------|
+| **C++**         | Object-Oriented Programming, Data Structures, Problem Solving     | OOP concepts, STL, Data Structures, Algorithms    |
+| **Java**        | Versatile language for app and web development                    | Core Java, OOP, JDBC, Swing, JavaFX, Android      |
+| **Python**      | Easy-to-learn, powerful scripting and data science language       | Basics, File Handling, OOP, Libraries (NumPy, Pandas, Matplotlib) |
+| **HTML & CSS**  | Building static and responsive web pages                          | HTML5, CSS3, Flexbox, Grid, Media Queries         |
+| **JavaScript**  | Dynamic web interactions and frontend scripting                   | ES6+, DOM, Events, AJAX, JSON, Local Storage      |
+| **SQL**         | Database management and queries                                   | CRUD operations, Joins, Subqueries, Transactions  |
+| **Android (Java)** | Mobile app development for Android devices                     | UI Design, Activities, Intents, Firebase, SQLite  |
 
 ---
 
-## 📝 Notes
+## 🌟 Why Learn with Me?
 
-- No database or server backend required — this is a **pure frontend solution**.
-- Ideal for **local shops, small businesses, or quick invoice generation**.
-- The tax rate is set at **5% by default** (modifiable in code).
-
----
-
-## 👨‍💻 Author
-
-**SwaShrungar Sarees Billing System**  
-Developed by : Ganesh Raut  
-
+✅ Simple, easy-to-understand explanations  
+✅ Practical coding examples and projects  
+✅ Step-by-step tutorials with real-world applications  
+✅ Regularly updated resources  
 
 ---
 
-## 📄 License
+## ✨ Learning Resources
 
-This project is licensed under the [MIT License](LICENSE).
+📁 Browse each language repository for:
+
+- ✅ Notes and Cheat Sheets
+- ✅ Practice Programs
+- ✅ Assignments and Solutions
+- ✅ Mini Projects
+- ✅ Interview Questions
+
+---
+
+## 🏆 Skills & Teaching Areas
+
+- Programming Fundamentals
+- Object-Oriented Programming
+- Web Development (Frontend)
+- App Development (Android)
+- Database Management
+- Problem Solving & DSA (Data Structures & Algorithms)
+
+---
+
+
+
+## 💬 Connect with Me
+
+- GitHub: https://github.com/93627829939e93u3
+- Instagram : https://www.instagram.com/mr.ganesh_149?igsh=aHZ4djZqNHN1ZjNq
+
+---
+
+## 📝 License
+
+All educational content is shared under **Creative Commons Attribution 4.0 International License**.
+
+---
 
