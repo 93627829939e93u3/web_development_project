@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Account</title>
+    <link rel="stylesheet" href="account.css">
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">MyWebsite</div>
+        <ul class="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="home.html">Contact</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="home.html">Services</a></li>
+            <li>
+                <div class="dropdown">
+                    <a href="">Account</a>
+                    <div class="dropdown-content">
+                        <a href="account.html" style="font-size: 20px;" >My Account<img src="icons8-my-account-50.png" alt="" style="margin-left: 70px; margin-top: -5px; height: 30px;"></a>
+                        
+                        <a href="checkout.html" style="font-size: 20px;">My Cart<img src="icons8-fast-cart-32.png" alt="" style="margin-left: 108px; margin-top: -5px;"></a>
+                        
+                    </div>
+                </div>
+            </li>
+            
+        </ul>
+       
+    </nav>
+        <h1>Hi, <span id="homeUsername">User</span>!</h1>
+
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <h3>Your Profile</h3>
+            <label for="uploadPhoto" id="profileLabel">
+                <img id="profilePhoto" src="default-photo.jpg" alt="Profile Photo">
+            </label>
+            <input type="file" id="uploadPhoto" accept="image/*" style="display: none;">
+        </div>
+
+        <!-- Purchase Details Table -->
+        <h2>Your Orders:</h2>
+        <table id="shoppingTable">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price (₹)</th>
+                    <th>Total (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added by JS -->
+            </tbody>
+        </table>
+    </div><br>
+    <footer>
+        <div class="footer0">
+          <h1>MyWebsite</h1>
+        </div>
+        <div class="footer1 ">
+          Connect with us at<div class="social-media">
+            <a href="#">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-youtube"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a>
+          </div>
+        </div>
+        <div class="footer2">
+          <div class="product">
+            <div class="heading">Products</div>
+            <div class="div">Sell your Products</div>
+            <div class="div">Advertise</div>
+            <div class="div">Pricing</div>
+            <div class="div">Product Buisness</div>
+    
+          </div>
+          <div>
+            <div class="heading">Services</div>
+            <div class="div">Return</div>
+            <div class="div">Cash Back</div>
+            <div class="div">Affiliate Marketing</div>
+            <div class="div">Others</div>
+          </div>
+          <div class="Company">
+            <div class="heading">Company</div>
+            <div class="div">Complaint</div>
+            <div class="div">Careers</div>
+            <div class="div">Affiliate Marketing</div>
+            <div class="div">Support</div>
+          </div>
+          <div class="Get Help">
+            <div class="heading">Get Help</div>
+            <div class="div">Help Center</div>
+            <div class="div">Privacy Policy</div>
+            <div class="div">Terms</div>
+            <div class="div">Login</div>
+          </div>
+        </div>
+        <div class="footer3">Copyright © <h4>MyWebsite</h4> 2021-2028</div>
+      </footer>
+      <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <link rel="stylesheet" href="home.css">
+    <script src="account.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fb;
+    color: #333;
+    padding: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header Section */
+#homeUsername {
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* Profile Section */
+.profile-section {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 350px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.profile-section h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#profilePhoto {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+    cursor: pointer;
+}
+
+#profileLabel {
+    cursor: pointer;
+}
+
+/* Purchase Details Section */
+#shoppingTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+}
+
+#shoppingTable th, #shoppingTable td {
+    text-align: center;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+#shoppingTable th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+#shoppingTable td {
+    background-color: #f9f9f9;
+}
+
+#shoppingTable tbody tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+#shoppingTable tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+#shoppingTable td {
+    font-size: 16px;
+}
+
+/* No Purchase Message */
+#shoppingTable tbody tr.no-purchase {
+    font-style: italic;
+    color: #666;
+    text-align: center;
+    background-color: #fff;
+}
+
+@media (max-width: 768px) {
+    .profile-section {
+        padding: 20px;
+        max-width: 300px;
+    }
+
+    #shoppingTable {
+        font-size: 14px;
+    }
+
+    #shoppingTable th, #shoppingTable td {
+        padding: 10px;
+    }
+}

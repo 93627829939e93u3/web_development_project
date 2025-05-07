@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">MyWebsite</div>
+        <ul class="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="#services">Services</a></li>
+            <li>
+                <div class="dropdown">
+                    <a href="">Account</a>
+                    <div class="dropdown-content">
+                        <a href="account.html" style="font-size: 20px;" >My Account<img src="icons8-my-account-50.png" alt="" style="margin-left: 70px; margin-top: -5px; height: 30px;"></a>
+                        
+                        <a href="checkout.html" style="font-size: 20px;">My Cart<img src="icons8-fast-cart-32.png" alt="" style="margin-left: 108px; margin-top: -5px;"></a>
+                        
+                    </div>
+                </div>
+            </li>
+            <li><button onclick="logout()">Logout</button></li>
+        </ul>
+        <div class="welcome-message">
+            Welcome, <span id="homeUsername"></span>!
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div>
+            <h1>Welcome to Our Company</h1>
+            <p>Meet the talented people behind our success</p>
+            <button class="btn">Our Team</button>
+        </div>
+    </section>
+
+    <!-- Body Section -->
+    <section class="body">
+        <h2>Our Team</h2>
+        <div class="card-container">
+            <!-- Employee Card 1 -->
+            <div class="card">
+                <img src="jon.png" alt="Employee 1">
+                <div class="content">
+                    <h3>John Doe</h3>
+                    <p>CEO & Founder</p>
+                    <button class="btn">View Profile</button>
+                </div>
+            </div>
+            <!-- Employee Card 2 -->
+            <div class="card">
+                <img src="jon.png" alt="Employee 2">
+                <div class="content">
+                    <h3>Jane Smith</h3>
+                    <p>Marketing Manager</p>
+                    <button class="btn">View Profile</button>
+                </div>
+            </div>
+            <!-- Employee Card 3 -->
+            <div class="card">
+                <img src="jon.png" alt="Employee 3">
+                <div class="content">
+                    <h3>Michael Lee</h3>
+                    <p>Lead Developer</p>
+                    <button class="btn">View Profile</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="service" id="services">
+        <h2>Our Services</h2>
+        <div class="services-container">
+            <!-- Service 1 -->
+            <div class="service-card">
+                <i class="fas fa-cogs"></i>
+                <h3>Custom Development</h3>
+                <p>Tailored software solutions to suit your business needs.</p>
+            </div>
+            <!-- Service 2 -->
+            <div class="service-card">
+                <i class="fas fa-cloud"></i>
+                <h3>Cloud Services</h3>
+                <p>Secure and scalable cloud solutions to boost your business.</p>
+            </div>
+            <!-- Service 3 -->
+            <div class="service-card">
+                <i class="fas fa-users"></i>
+                <h3>Consulting</h3>
+                <p>Expert advice and guidance to drive business growth.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact" id="contact">
+        <div class="contact-wrapper">
+            <div class="contact-form-container">
+                <h2>Contact us</h2>
+                <form action="#" method="post">
+                    <div class="input-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="input-group">
+                        <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                        <label for="message">Message</label>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <br>
+    <footer>
+        <div class="footer0">
+            <h1>MyWebsite</h1>
+        </div>
+        <div class="footer1 ">
+            Connect with us at<div class="social-media">
+                <a href="#">
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+                <a href="#">
+                    <ion-icon name="logo-linkedin"></ion-icon>
+                </a>
+                <a href="#">
+                    <ion-icon name="logo-youtube"></ion-icon>
+                </a>
+                <a href="#">
+                    <ion-icon name="logo-instagram"></ion-icon>
+                </a>
+                <a href="#">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                </a>
+            </div>
+        </div>
+        <div class="footer2">
+            <div class="product">
+                <div class="heading">Products</div>
+                <div class="div">Sell your Products</div>
+                <div class="div">Advertise</div>
+                <div class="div">Pricing</div>
+                <div class="div">Product Buisness</div>
+
+            </div>
+            <div>
+                <div class="heading">Services</div>
+                <div class="div">Return</div>
+                <div class="div">Cash Back</div>
+                <div class="div">Affiliate Marketing</div>
+                <div class="div">Others</div>
+            </div>
+            <div class="Company">
+                <div class="heading">Company</div>
+                <div class="div">Complaint</div>
+                <div class="div">Careers</div>
+                <div class="div">Affiliate Marketing</div>
+                <div class="div">Support</div>
+            </div>
+            <div class="Get Help">
+                <div class="heading">Get Help</div>
+                <div class="div">Help Center</div>
+                <div class="div">Privacy Policy</div>
+                <div class="div">Terms</div>
+                <div class="div">Login</div>
+            </div>
+        </div>
+        <div class="footer3">Copyright © <h4>MyWebsite</h4> 2021-2028</div>
+    </footer>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script src="home.js"></script>
+</body>
+
+</html>

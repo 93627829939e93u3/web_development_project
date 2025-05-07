@@ -1,0 +1,123 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+    font-size: 2.5rem;
+    margin-top: 20px;
+}
+
+/* Checkout Container */
+.checkout-container {
+    width: 80%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.checkout-items {
+    margin-bottom: 20px;
+}
+
+.checkout-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.checkout-item img {
+    width: 100px;
+    height: 100px;
+    margin-right: 15px;
+}
+
+.checkout-item h3 {
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+
+.checkout-item p {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.checkout-total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: right;
+}
+
+/* Payment Methods */
+.payment-methods {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-methods label {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.payment-methods input {
+    margin-right: 10px;
+}
+
+/* Buttons */
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer a {
+    color: #f9c74f;
+    margin: 0 15px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+.remove-item{
+    margin-left:300px;
+    
+    
+    
+}
