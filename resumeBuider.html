@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Resume Builder</title>
+    <link rel="stylesheet" href="resume.css">
+</head>
+
+<body>
+    <div class="form-container" >
+        <h1>Resume Builder</h1>
+        <form id="resumeForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="contact">Contact Number:</label>
+            <input type="text" id="contact" required>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <label for="website">Website:</label>
+            <input type="text" id="website">
+
+            <label for="expertise">Expertise Skills:</label>
+            <input type="text" id="expertise" required>
+
+            <label for="languages">Languages:</label>
+            <input type="text" id="languages" required>
+
+            <label for="interests">Interests:</label>
+            <input type="text" id="interests" required>
+
+            <label for="profile">Professional Profile:</label>
+            <textarea id="profile" required></textarea>
+
+            <label for="education">Education:</label>
+            <textarea id="education" required></textarea>
+
+            <label for="experience">Experience:</label>
+            <textarea id="experience" required></textarea>
+
+            <label for="interests">Projects:</label>
+            <input type="text" id="projects" required>
+
+            <label for="photo">Profile Photo:</label>
+            <input type="file" id="photo" accept="image/*">
+
+            <button type="button" onclick="generateResume()">Create Resume</button>
+        </form>
+    </div>
+
+    <div class="resume-container" id="resumeSection" hidden>
+        <section class="left">
+            <div class="resume-header">
+
+                <img id="profilePhoto"
+                    src=""
+                    alt="Profile Photo">
+                <h1 id="displayName"></h1>
+            </div>
+            <div class="hr"></div>
+            <div class="resume-contact">
+                <h5 class="left-info">CONTACT INFO</h5>
+                <img src="icons8-phone-40.png" alt="" class="left-img">
+                <p id="displayContact"></p>
+                <img src="icons8-email-50.png" alt="" class="left-img">
+                <p id="displayEmail"></p>
+                <img src="icons8-internet-50.png" alt="" class="left-img">
+                <p id="displayWebsite"></p>
+                <img src="icons8-address-48.png" alt="" class="left-img">
+                <p id="displayAddress"></p>
+            </div>
+            <br>
+            <div class="hr"></div>
+            <h5 class="left-info">EXPERTISE SKILLS</h5>
+            <ul id="dynamicList"></ul>
+
+            <br>
+            <div class="hr"></div>
+            <h5 class="left-info">LANGUAGES</h5>
+            <ul id="dynamicList2"></ul>
+            <br>
+            <div class="hr"></div>
+            <h5 class="left-info">INTRESTES</h5>
+            <ul id="dynamicList3"></ul>
+        </section>
+        <section class="right">
+            <h2>ABOUT ME</h2>
+            <p id="displayProfile"></p>
+           <br>
+            <h2>EDUCATION</h2>
+            <p id="displayEducation"></p>
+
+            <br>
+
+            <h2>EXPERIENCE</h2>
+            
+            <p id="displayExperience"> </p>
+            <br>
+            <h2>Projects</h2>
+            <ul id="dynamicList4">
+
+            </ul>
+
+        </section>
+
+    </div>
+    <button onclick="editResume()">Edit</button>
+    <button onclick="downloadResume()">Download</button>
+    <script src="resume.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+</body>
+
+</html>
