@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To Do List</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f4f4;
+      padding: 50px;
+      
+      justify-content: center;
+    }
+
+   
+
+    
+
+    input[type="text"] {
+      width: 30%;
+      padding: 12px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 20%;
+      padding: 12px;
+      background-color: #3498db;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    ul {
+      padding: 0;
+      margin-top: 20px;
+      list-style-type: none;
+    }
+
+    li {
+      background-color: #eef1f5;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.3s;
+      width: 50%;
+    }
+
+    li:hover {
+      background-color: #dfe6ec;
+    }
+
+    .del {
+    
+      background-color: #e74c3c;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      width: 100px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+
+    .del:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="form-container">
+    <h2>Input Form</h2>
+    <form id="userForm">
+      <!-- Text input for name -->
+
+      <input type="text" id="name" name="name" placeholder="Enter The List " required>
+
+<br>
+
+      <!-- Submit button -->
+      <button type="reset" onclick="submitForm()">Make a list</button>
+    </form>
+  </div>
+<br>
+  <div id="output">
+    <h3>List :</h3>
+  </div>
+
+  <script>
+    function submitForm() {
+      // let i=0;
+
+      var name = document.getElementById('name').value;
+
+      // var output;
+      // Display the result
+
+      if (name === "") {
+        alert("Please enter some value");
+        return;
+      }
+      var output = `<div><li class='li'>${name}<span><button class='del' onclick='del()'>Delete</button></span></li></div><br>`;
+
+
+
+
+      document.getElementById('output').innerHTML += output;
+
+
+      // Optional: Clear the form after submission
+
+
+    }
+    // Get input values
+    function del() {
+      event.target.parentElement.parentElement.remove();
+    }
+
+  </script>
+
+</body>
+
+</html>
