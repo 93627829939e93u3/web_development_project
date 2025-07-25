@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Template - {{ template[1] }}{% endblock %}
+
+{% block extra_css %}
+<style>
+.code-editor {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 15px;
+    background: #f8f9fa;
+    min-height: 300px;
+    resize: vertical;
+}
+
+.code-editor:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+}
+
+.template-preview {
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 20px;
+    background: white;
+    min-height: 400px;
+    overflow: auto;
+}
+
+.preview-btn {
+    background: #17a2b8;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.preview-btn:hover {
+    background: #138496;
+}
+
+.back-link {
+    color: #667eea;
+    text-decoration: none;
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.back-link:hover {
+    color: #5a67d8;
+}
+
+.help-text {
+    background: #e3f2fd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #2196f3;
+}
+
+.help-text h4 {
+    color: #1976d2;
+    margin-bottom: 10px;
+}
+
+.help-text ul {
+    margin-left: 20px;
+    color: #666;
+}
+
+.thumbnail-preview {
+    width: 150px;
+    height: 100px;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.thumbnail-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail-preview i {
+    font-size: 2em;
+    color: #adb5bd;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <a href="{{ url_for('admin_dashboard') }}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+        
+        <div class="header">
+            <h1><i class="fas fa-edit"></i> Edit Template: {{ template[1] }}</h1>
+            <p>Modify the template HTML, CSS, and thumbnail</p>
+        </div>
+        
+        <div class="help-text">
+            <h4>Template Variables Available:</h4>
+            <ul>
+                <li><strong>Personal:</strong> {{ "{{ name }}" }}, {{ "{{ email }}" }}, {{ "{{ location }}" }}, {{ "{{ address }}" }}</li>
+                <li><strong>AI Content:</strong> {{ "{{ about_me }}" }}, {{ "{{ project_summary }}" }}, {{ "{{ experience_summary }}" }}</li>
+                <li><strong>Lists:</strong> {{ "{{ education_list }}" }}, {{ "{{ skill_list }}" }}, {{ "{{ experience_list }}" }}, {{ "{{ project_list }}" }}, {{ "{{ interest_list }}" }}</li>
+                <li><strong>Toggles:</strong> {{ "{{ show_about }}" }}, {{ "{{ show_education }}" }}, {{ "{{ show_experience }}" }}, {{ "{{ show_projects }}" }}, {{ "{{ show_skills }}" }}, {{ "{{ show_interests }}" }}</li>
+                <li><strong>Photo:</strong> {{ "{{ profile_photo }}" }}, {{ "{{ show_profile_photo }}" }}</li>
+            </ul>
+        </div>
+        
+        <form method="POST" action="{{ url_for('update_template', template_id=template[0]) }}" enctype="multipart/form-data">
+            <div class="grid">
+                <div>
+                    <div class="form-group">
+                        <label for="name">Template Name *</label>
+                        <input type="text" id="name" name="name" value="{{ template[1] }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="thumbnail">Template Thumbnail</label>
+                        <div class="thumbnail-preview" id="thumbnailPreview">
+                            {% if template[3] %}
+                                <img src="/template_thumbnails/{{ template[3] }}" alt="Thumbnail">
+                            {% else %}
+                                <i class="fas fa-image"></i>
+                            {% endif %}
+                        </div>
+                        <input type="file" id="thumbnail" name="thumbnail" accept="image/*">
+                        <input type="hidden" name="existing_thumbnail" value="{{ template[3] or '' }}">
+                        <small style="color: #666;">Upload a preview image for the template gallery</small>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Template Preview</h3>
+                    <button type="button" class="preview-btn" onclick="previewTemplate()">
+                        <i class="fas fa-eye"></i> Preview Template
+                    </button>
+                    <div class="template-preview" id="templatePreview">
+                        <p style="color: #666; text-align: center;">Click "Preview Template" to see how it looks</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="html_content">HTML Template *</label>
+                <textarea id="html_content" name="html_content" class="code-editor" required>{{ template[4] }}</textarea>
+                <small style="color: #666;">Use Jinja2 template syntax. Example: {{ "{{ name }}" }}, {{ "{% if show_about %}...{% endif %}" }}</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="css_content">CSS Styles *</label>
+                <textarea id="css_content" name="css_content" class="code-editor" required>{{ template[5] }}</textarea>
+                <small style="color: #666;">CSS styles for the resume template</small>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button type="submit" class="btn">
+                    <i class="fas fa-save"></i> Update Template
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% raw %}
+<script>
+// Preview thumbnail on file select
+document.getElementById('thumbnail').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('thumbnailPreview').innerHTML = 
+                `<img src="${e.target.result}" alt="Thumbnail Preview">`;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Preview template function
+function previewTemplate() {
+    const htmlContent = document.getElementById('html_content').value;
+    const cssContent = document.getElementById('css_content').value;
+    
+    const sampleData = {
+        name: 'John Doe',
+        email: 'john.doe@email.com',
+        location: 'New York, USA',
+        address: '123 Main Street, New York, NY 10001',
+        about_me: 'Experienced software developer...',
+        project_summary: 'Developed multiple web apps...',
+        experience_summary: 'Over 3 years experience...',
+        show_about: true,
+        show_education: true,
+        show_experience: true,
+        show_projects: true,
+        show_skills: true,
+        show_interests: true,
+        show_profile_photo: false,
+        education_list: [
+            {
+                course_name: 'Bachelor of Computer Science',
+                university_name: 'Tech University',
+                duration: '2018-2022',
+                grade: '3.8 GPA'
+            }
+        ],
+        skill_list: [
+            {
+                category: 'Technical',
+                skills: 'JavaScript, Python, React, Node.js'
+            }
+        ],
+        experience_list: [
+            {
+                job_role: 'Software Developer',
+                organization: 'Tech Company',
+                duration: 'Jan 2022 - Present',
+                description: 'Developed web apps...'
+            }
+        ],
+        project_list: [
+            {
+                name: 'E-commerce Website',
+                languages: ['React', 'Node.js', 'MongoDB'],
+                description: 'Built a full-stack e-commerce site.'
+            }
+        ],
+        interest_list: ['Reading', 'Photography', 'Hiking']
+    };
+    
+    let processedHtml = htmlContent;
+    
+    Object.keys(sampleData).forEach(key => {
+        if (typeof sampleData[key] === 'string' || typeof sampleData[key] === 'boolean') {
+            const regex = new RegExp(`{{\\s*${key}\\s*}}`, 'g');
+            processedHtml = processedHtml.replace(regex, sampleData[key]);
+        }
+    });
+    
+    processedHtml = processedHtml.replace(/{% if show_\w+ %}/g, '');
+    processedHtml = processedHtml.replace(/{% endif %}/g, '');
+    processedHtml = processedHtml.replace(/{% for \w+ in education_list %}/g, '');
+    processedHtml = processedHtml.replace(/{% endfor %}/g, '');
+    
+    const preview = document.getElementById('templatePreview');
+    preview.innerHTML = `
+        <style>${cssContent}</style>
+        ${processedHtml}
+    `;
+}
+</script>
+{% endraw %}
+
+{% endblock %}

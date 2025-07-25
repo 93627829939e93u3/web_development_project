@@ -1,0 +1,799 @@
+{% extends "base.html" %}
+
+{% block title %}Test Template - {{ template[1] }}{% endblock %}
+
+{% block extra_css %}
+<style>
+.test-container {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 20px;
+    height: calc(100vh - 100px);
+}
+
+.test-controls {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 10px;
+    overflow-y: auto;
+    border: 1px solid #e9ecef;
+}
+
+.test-preview {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-header {
+    background: #2c3e50;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.preview-content {
+    flex: 1;
+    overflow: auto;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+.preview-frame {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    min-height: 800px;
+}
+
+.control-group {
+    margin-bottom: 25px;
+}
+
+.control-group h4 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.test-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.test-textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    min-height: 60px;
+    resize: vertical;
+}
+
+.test-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.test-checkbox input {
+    width: 18px;
+    height: 18px;
+}
+
+.dynamic-section {
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.section-item {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.add-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.test-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: transform 0.2s;
+}
+
+.test-btn:hover {
+    transform: translateY(-1px);
+}
+
+.preset-btn {
+    background: #17a2b8;
+    margin-bottom: 10px;
+}
+
+.back-link {
+    color: #667eea;
+    text-decoration: none;
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.back-link:hover {
+    color: #5a67d8;
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+.success-message {
+    background: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+@media (max-width: 1200px) {
+    .test-container {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    
+    .test-controls {
+        order: 2;
+    }
+    
+    .test-preview {
+        order: 1;
+        height: 600px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 1400px;">
+    <a href="{{ url_for('admin_dashboard') }}" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+    
+    <div class="card" style="padding: 0; overflow: hidden;">
+        <div class="test-container">
+            <div class="test-controls">
+                <h3 style="color: #2c3e50; margin-bottom: 20px;">
+                    <i class="fas fa-vial"></i> Test: {{ template[1] }}
+                </h3>
+                
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+                
+                <button class="test-btn preset-btn" onclick="loadSampleData()">
+                    <i class="fas fa-magic"></i> Load Sample Data
+                </button>
+                
+                <button class="test-btn" onclick="previewTemplate()">
+                    <i class="fas fa-eye"></i> Preview Template
+                </button>
+                
+                <button class="test-btn" onclick="clearData()">
+                    <i class="fas fa-trash"></i> Clear All Data
+                </button>
+                
+                <!-- Personal Information -->
+                <div class="control-group">
+                    <h4><i class="fas fa-user"></i> Personal Information</h4>
+                    <div class="form-row">
+                        <input type="text" class="test-input" id="name" placeholder="Full Name" value="John Smith">
+                        <input type="email" class="test-input" id="email" placeholder="Email" value="john@example.com">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" class="test-input" id="location" placeholder="Location" value="New York, NY">
+                        <input type="text" class="test-input" id="address" placeholder="Address" value="123 Main St">
+                    </div>
+                </div>
+                
+                <!-- Section Toggles -->
+                <div class="control-group">
+                    <h4><i class="fas fa-toggle-on"></i> Section Visibility</h4>
+                    <div class="test-checkbox">
+                        <input type="checkbox" id="show_profile_photo" checked>
+                        <label>Show Profile Photo</label>
+                    </div>
+                    <div class="test-checkbox">
+                        <input type="checkbox" id="show_about" checked>
+                        <label>Show About/Summary</label>
+                    </div>
+                    <div class="test-checkbox">
+                        <input type="checkbox" id="show_education" checked>
+                        <label>Show Education</label>
+                    </div>
+                    <div class="test-checkbox">
+                        <input type="checkbox" id="show_experience" checked>
+                        <label>Show Experience</label>
+                    </div>
+                    <div class="test-checkbox">
+                        <input type="checkbox" id="show_projects" checked>
+                        <label>Show Projects</label>
+                    </div>
+                    <div class="test-checkbox">
+                        <input type="checkbox" id="show_skills" checked>
+                        <label>Show Skills</label>
+                    </div>
+                    <div class="test-checkbox">
+                        <input type="checkbox" id="show_interests" checked>
+                        <label>Show Interests</label>
+                    </div>
+                </div>
+                
+                <!-- AI Content -->
+                <div class="control-group">
+                    <h4><i class="fas fa-robot"></i> AI Generated Content</h4>
+                    <textarea class="test-textarea" id="about_me" placeholder="Professional Summary">Experienced professional with expertise in technology and innovation.</textarea>
+                    <textarea class="test-textarea" id="experience_summary" placeholder="Experience Summary">Proven track record in delivering high-quality solutions.</textarea>
+                    <textarea class="test-textarea" id="project_summary" placeholder="Project Summary">Successfully completed multiple challenging projects.</textarea>
+                </div>
+                
+                <!-- Education -->
+                <div class="control-group">
+                    <h4><i class="fas fa-graduation-cap"></i> Education</h4>
+                    <div class="dynamic-section" id="educationSection">
+                        <div class="section-item">
+                            <button class="remove-btn" onclick="removeItem(this)">×</button>
+                            <input type="text" class="test-input" placeholder="Course Name" value="Computer Science">
+                            <input type="text" class="test-input" placeholder="University" value="Tech University">
+                            <div class="form-row">
+                                <input type="text" class="test-input" placeholder="Duration" value="2018-2022">
+                                <input type="text" class="test-input" placeholder="Grade" value="3.8 GPA">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-btn" onclick="addEducation()">+ Add Education</button>
+                </div>
+                
+                <!-- Skills -->
+                <div class="control-group">
+                    <h4><i class="fas fa-cogs"></i> Skills</h4>
+                    <div class="dynamic-section" id="skillsSection">
+                        <div class="section-item">
+                            <button class="remove-btn" onclick="removeItem(this)">×</button>
+                            <select class="test-input">
+                                <option value="Technical">Technical</option>
+                                <option value="Soft">Soft Skills</option>
+                                <option value="Language">Languages</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <textarea class="test-textarea" placeholder="Skills">JavaScript, Python, React</textarea>
+                        </div>
+                    </div>
+                    <button class="add-btn" onclick="addSkill()">+ Add Skill Category</button>
+                </div>
+                
+                <!-- Experience -->
+                <div class="control-group">
+                    <h4><i class="fas fa-briefcase"></i> Experience</h4>
+                    <div class="dynamic-section" id="experienceSection">
+                        <div class="section-item">
+                            <button class="remove-btn" onclick="removeItem(this)">×</button>
+                            <input type="text" class="test-input" placeholder="Job Role" value="Software Developer">
+                            <input type="text" class="test-input" placeholder="Organization" value="Tech Corp">
+                            <input type="text" class="test-input" placeholder="Duration" value="2022-Present">
+                            <textarea class="test-textarea" placeholder="Description">Developed web applications and managed projects.</textarea>
+                        </div>
+                    </div>
+                    <button class="add-btn" onclick="addExperience()">+ Add Experience</button>
+                </div>
+                
+                <!-- Projects -->
+                <div class="control-group">
+                    <h4><i class="fas fa-project-diagram"></i> Projects</h4>
+                    <div class="dynamic-section" id="projectsSection">
+                        <div class="section-item">
+                            <button class="remove-btn" onclick="removeItem(this)">×</button>
+                            <input type="text" class="test-input" placeholder="Project Name" value="E-commerce App">
+                            <input type="text" class="test-input" placeholder="Technologies" value="React, Node.js, MongoDB">
+                            <textarea class="test-textarea" placeholder="Description">Built a full-stack e-commerce application.</textarea>
+                        </div>
+                    </div>
+                    <button class="add-btn" onclick="addProject()">+ Add Project</button>
+                </div>
+                
+                <!-- Interests -->
+                <div class="control-group">
+                    <h4><i class="fas fa-heart"></i> Interests</h4>
+                    <div class="dynamic-section" id="interestsSection">
+                        <div class="section-item">
+                            <button class="remove-btn" onclick="removeItem(this)">×</button>
+                            <input type="text" class="test-input" placeholder="Interest" value="Photography">
+                        </div>
+                    </div>
+                    <button class="add-btn" onclick="addInterest()">+ Add Interest</button>
+                </div>
+            </div>
+            
+            <div class="test-preview">
+                <div class="preview-header">
+                    <h4><i class="fas fa-desktop"></i> Template Preview</h4>
+                    <div>
+                        <button class="btn btn-secondary" onclick="downloadPreview()">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+                <div class="preview-content">
+                    <div class="preview-frame" id="previewFrame">
+                        <div style="text-align: center; padding: 50px; color: #666;">
+                            <i class="fas fa-eye" style="font-size: 3em; margin-bottom: 20px;"></i>
+                            <h3>Template Preview</h3>
+                            <p>Click "Preview Template" to see how your template looks with the test data.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="loading-overlay" id="loadingOverlay">
+                    <div>
+                        <div class="spinner"></div>
+                        <p style="margin-top: 15px;">Generating preview...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const templateId = {{ template[0] }};
+let currentPreviewData = null;
+
+// Load sample data
+function loadSampleData() {
+    // Personal info
+    document.getElementById('name').value = 'John Alexander Smith';
+    document.getElementById('email').value = 'john.smith@email.com';
+    document.getElementById('location').value = 'San Francisco, CA';
+    document.getElementById('address').value = '123 Tech Street, San Francisco, CA 94105';
+    
+    // AI content
+    document.getElementById('about_me').value = 'Experienced software engineer with 5+ years of expertise in full-stack development, cloud architecture, and team leadership. Proven track record of delivering scalable solutions and driving technical innovation in fast-paced environments.';
+    document.getElementById('experience_summary').value = 'Progressive career growth from junior developer to senior engineer, with experience in startups and enterprise environments, specializing in modern web technologies and agile methodologies.';
+    document.getElementById('project_summary').value = 'Led development of multiple high-impact projects including e-commerce platforms, mobile applications, and enterprise software solutions with focus on performance and user experience.';
+    
+    // Clear and add sample education
+    const educationSection = document.getElementById('educationSection');
+    educationSection.innerHTML = '';
+    addEducationItem('Master of Science in Computer Science', 'Stanford University', '2018-2020', '3.9 GPA');
+    addEducationItem('Bachelor of Science in Software Engineering', 'UC Berkeley', '2014-2018', '3.7 GPA');
+    
+    // Clear and add sample skills
+    const skillsSection = document.getElementById('skillsSection');
+    skillsSection.innerHTML = '';
+    addSkillItem('Technical', 'JavaScript, Python, Java, TypeScript, Go');
+    addSkillItem('Frontend', 'React, Vue.js, Angular, HTML5, CSS3, Sass');
+    addSkillItem('Backend', 'Node.js, Django, Flask, Spring Boot, Express.js');
+    addSkillItem('Cloud & DevOps', 'AWS, Docker, Kubernetes, CI/CD, Terraform');
+    
+    // Clear and add sample experience
+    const experienceSection = document.getElementById('experienceSection');
+    experienceSection.innerHTML = '';
+    addExperienceItem('Senior Software Engineer', 'TechCorp Solutions', 'Jan 2022 - Present', 'Lead a team of 5 developers in building scalable web applications. Architected microservices infrastructure serving 1M+ users.');
+    addExperienceItem('Full Stack Developer', 'StartupXYZ', 'Jun 2020 - Dec 2021', 'Developed and maintained React-based frontend and Node.js backend systems. Built RESTful APIs and integrated third-party services.');
+    
+    // Clear and add sample projects
+    const projectsSection = document.getElementById('projectsSection');
+    projectsSection.innerHTML = '';
+    addProjectItem('E-Commerce Platform', 'React, Node.js, PostgreSQL, AWS', 'Built a full-stack e-commerce platform with payment integration, inventory management, and admin dashboard.');
+    addProjectItem('Mobile Task Manager', 'React Native, Firebase, Redux', 'Developed cross-platform mobile app for task management with real-time synchronization and offline support.');
+    
+    // Clear and add sample interests
+    const interestsSection = document.getElementById('interestsSection');
+    interestsSection.innerHTML = '';
+    addInterestItem('Machine Learning');
+    addInterestItem('Open Source Contributing');
+    addInterestItem('Rock Climbing');
+    addInterestItem('Photography');
+    
+    showSuccess('Sample data loaded successfully!');
+}
+
+// Clear all data
+function clearData() {
+    // Clear personal info
+    document.getElementById('name').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('location').value = '';
+    document.getElementById('address').value = '';
+    
+    // Clear AI content
+    document.getElementById('about_me').value = '';
+    document.getElementById('experience_summary').value = '';
+    document.getElementById('project_summary').value = '';
+    
+    // Clear dynamic sections
+    document.getElementById('educationSection').innerHTML = '<div class="section-item"><button class="remove-btn" onclick="removeItem(this)">×</button><input type="text" class="test-input" placeholder="Course Name"><input type="text" class="test-input" placeholder="University"><div class="form-row"><input type="text" class="test-input" placeholder="Duration"><input type="text" class="test-input" placeholder="Grade"></div></div>';
+    document.getElementById('skillsSection').innerHTML = '<div class="section-item"><button class="remove-btn" onclick="removeItem(this)">×</button><select class="test-input"><option value="Technical">Technical</option><option value="Soft">Soft Skills</option><option value="Language">Languages</option><option value="Other">Other</option></select><textarea class="test-textarea" placeholder="Skills"></textarea></div>';
+    document.getElementById('experienceSection').innerHTML = '<div class="section-item"><button class="remove-btn" onclick="removeItem(this)">×</button><input type="text" class="test-input" placeholder="Job Role"><input type="text" class="test-input" placeholder="Organization"><input type="text" class="test-input" placeholder="Duration"><textarea class="test-textarea" placeholder="Description"></textarea></div>';
+    document.getElementById('projectsSection').innerHTML = '<div class="section-item"><button class="remove-btn" onclick="removeItem(this)">×</button><input type="text" class="test-input" placeholder="Project Name"><input type="text" class="test-input" placeholder="Technologies"><textarea class="test-textarea" placeholder="Description"></textarea></div>';
+    document.getElementById('interestsSection').innerHTML = '<div class="section-item"><button class="remove-btn" onclick="removeItem(this)">×</button><input type="text" class="test-input" placeholder="Interest"></div>';
+    
+    showSuccess('All data cleared!');
+}
+
+// Preview template
+async function previewTemplate() {
+    const testData = collectTestData();
+    
+    showLoading(true);
+    hideMessages();
+    
+    try {
+        const response = await fetch('/admin/preview_template', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                template_id: templateId,
+                test_data: testData
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(result.error || 'Failed to preview template');
+        }
+        
+        displayPreview(result);
+        currentPreviewData = result;
+        showSuccess('Template preview generated successfully!');
+        
+    } catch (error) {
+        showError('Error generating preview: ' + error.message);
+    } finally {
+        showLoading(false);
+    }
+}
+
+// Collect test data from form
+function collectTestData() {
+    const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        location: document.getElementById('location').value,
+        address: document.getElementById('address').value,
+        profile_photo: '/static/sample-profile.jpg',
+        show_profile_photo: document.getElementById('show_profile_photo').checked,
+        show_about: document.getElementById('show_about').checked,
+        show_education: document.getElementById('show_education').checked,
+        show_experience: document.getElementById('show_experience').checked,
+        show_projects: document.getElementById('show_projects').checked,
+        show_skills: document.getElementById('show_skills').checked,
+        show_interests: document.getElementById('show_interests').checked,
+        about_me: document.getElementById('about_me').value,
+        experience_summary: document.getElementById('experience_summary').value,
+        project_summary: document.getElementById('project_summary').value,
+        education_list: [],
+        skill_list: [],
+        experience_list: [],
+        project_list: [],
+        interest_list: []
+    };
+    
+    // Collect education
+    document.querySelectorAll('#educationSection .section-item').forEach(item => {
+        const inputs = item.querySelectorAll('input');
+        if (inputs[0].value && inputs[1].value) {
+            data.education_list.push({
+                course_name: inputs[0].value,
+                university_name: inputs[1].value,
+                duration: inputs[2].value,
+                grade: inputs[3].value
+            });
+        }
+    });
+    
+    // Collect skills
+    document.querySelectorAll('#skillsSection .section-item').forEach(item => {
+        const select = item.querySelector('select');
+        const textarea = item.querySelector('textarea');
+        if (select.value && textarea.value) {
+            data.skill_list.push({
+                category: select.value,
+                skills: textarea.value
+            });
+        }
+    });
+    
+    // Collect experience
+    document.querySelectorAll('#experienceSection .section-item').forEach(item => {
+        const inputs = item.querySelectorAll('input');
+        const textarea = item.querySelector('textarea');
+        if (inputs[0].value && inputs[1].value) {
+            data.experience_list.push({
+                job_role: inputs[0].value,
+                organization: inputs[1].value,
+                duration: inputs[2].value,
+                description: textarea.value
+            });
+        }
+    });
+    
+    // Collect projects
+    document.querySelectorAll('#projectsSection .section-item').forEach(item => {
+        const inputs = item.querySelectorAll('input');
+        const textarea = item.querySelector('textarea');
+        if (inputs[0].value && inputs[1].value) {
+            data.project_list.push({
+                name: inputs[0].value,
+                languages: inputs[1].value.split(',').map(s => s.trim()),
+                description: textarea.value
+            });
+        }
+    });
+    
+    // Collect interests
+    document.querySelectorAll('#interestsSection .section-item').forEach(item => {
+        const input = item.querySelector('input');
+        if (input.value) {
+            data.interest_list.push(input.value);
+        }
+    });
+    
+    return data;
+}
+
+// Display preview
+function displayPreview(result) {
+    const previewFrame = document.getElementById('previewFrame');
+    
+    // Create style element
+    const styleElement = document.createElement('style');
+    styleElement.textContent = result.css;
+    
+    // Clear existing styles
+    const existingStyles = document.querySelectorAll('style[data-template-style]');
+    existingStyles.forEach(style => style.remove());
+    
+    styleElement.setAttribute('data-template-style', 'true');
+    document.head.appendChild(styleElement);
+    
+    // Set HTML content
+    previewFrame.innerHTML = result.html;
+}
+
+// Download preview as PDF
+function downloadPreview() {
+    if (!currentPreviewData) {
+        showError('Please generate a preview first');
+        return;
+    }
+    
+    const element = document.getElementById('previewFrame');
+    const opt = {
+        margin: 0.5,
+        filename: 'template_preview.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    
+    html2pdf().set(opt).from(element).save();
+}
+
+// Dynamic section management
+function removeItem(button) {
+    const section = button.closest('.dynamic-section');
+    if (section.children.length > 1) {
+        button.closest('.section-item').remove();
+    } else {
+        showError('At least one item is required');
+    }
+}
+
+function addEducation() {
+    addEducationItem('', '', '', '');
+}
+
+function addEducationItem(course, university, duration, grade) {
+    const section = document.getElementById('educationSection');
+    const item = document.createElement('div');
+    item.className = 'section-item';
+    item.innerHTML = `
+        <button class="remove-btn" onclick="removeItem(this)">×</button>
+        <input type="text" class="test-input" placeholder="Course Name" value="${course}">
+        <input type="text" class="test-input" placeholder="University" value="${university}">
+        <div class="form-row">
+            <input type="text" class="test-input" placeholder="Duration" value="${duration}">
+            <input type="text" class="test-input" placeholder="Grade" value="${grade}">
+        </div>
+    `;
+    section.appendChild(item);
+}
+
+function addSkill() {
+    addSkillItem('Technical', '');
+}
+
+function addSkillItem(category, skills) {
+    const section = document.getElementById('skillsSection');
+    const item = document.createElement('div');
+    item.className = 'section-item';
+    item.innerHTML = `
+        <button class="remove-btn" onclick="removeItem(this)">×</button>
+        <select class="test-input">
+            <option value="Technical" ${category === 'Technical' ? 'selected' : ''}>Technical</option>
+            <option value="Soft" ${category === 'Soft' ? 'selected' : ''}>Soft Skills</option>
+            <option value="Language" ${category === 'Language' ? 'selected' : ''}>Languages</option>
+            <option value="Other" ${category === 'Other' ? 'selected' : ''}>Other</option>
+        </select>
+        <textarea class="test-textarea" placeholder="Skills">${skills}</textarea>
+    `;
+    section.appendChild(item);
+}
+
+function addExperience() {
+    addExperienceItem('', '', '', '');
+}
+
+function addExperienceItem(role, org, duration, desc) {
+    const section = document.getElementById('experienceSection');
+    const item = document.createElement('div');
+    item.className = 'section-item';
+    item.innerHTML = `
+        <button class="remove-btn" onclick="removeItem(this)">×</button>
+        <input type="text" class="test-input" placeholder="Job Role" value="${role}">
+        <input type="text" class="test-input" placeholder="Organization" value="${org}">
+        <input type="text" class="test-input" placeholder="Duration" value="${duration}">
+        <textarea class="test-textarea" placeholder="Description">${desc}</textarea>
+    `;
+    section.appendChild(item);
+}
+
+function addProject() {
+    addProjectItem('', '', '');
+}
+
+function addProjectItem(name, tech, desc) {
+    const section = document.getElementById('projectsSection');
+    const item = document.createElement('div');
+    item.className = 'section-item';
+    item.innerHTML = `
+        <button class="remove-btn" onclick="removeItem(this)">×</button>
+        <input type="text" class="test-input" placeholder="Project Name" value="${name}">
+        <input type="text" class="test-input" placeholder="Technologies" value="${tech}">
+        <textarea class="test-textarea" placeholder="Description">${desc}</textarea>
+    `;
+    section.appendChild(item);
+}
+
+function addInterest() {
+    addInterestItem('');
+}
+
+function addInterestItem(interest) {
+    const section = document.getElementById('interestsSection');
+    const item = document.createElement('div');
+    item.className = 'section-item';
+    item.innerHTML = `
+        <button class="remove-btn" onclick="removeItem(this)">×</button>
+        <input type="text" class="test-input" placeholder="Interest" value="${interest}">
+    `;
+    section.appendChild(item);
+}
+
+// Utility functions
+function showLoading(show) {
+    document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+}
+
+function showError(message) {
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+    setTimeout(() => errorDiv.style.display = 'none', 5000);
+}
+
+function showSuccess(message) {
+    const successDiv = document.getElementById('successMessage');
+    successDiv.textContent = message;
+    successDiv.style.display = 'block';
+    setTimeout(() => successDiv.style.display = 'none', 3000);
+}
+
+function hideMessages() {
+    document.getElementById('errorMessage').style.display = 'none';
+    document.getElementById('successMessage').style.display = 'none';
+}
+
+// Initialize with sample data on load
+document.addEventListener('DOMContentLoaded', function() {
+    loadSampleData();
+});
+</script>
+{% endblock %}
