@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager - Your Personal Todo List</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+  <style>
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px 0;
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .hero-section {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .hero-section h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-section p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+
+    .content-wrapper {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    @media (max-width: 992px) {
+      .content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    /* Form Container Styles */
+    .form-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      position: sticky;
+      top: 20px;
+    }
+
+    .form-container h3 {
+      color: #4a5568;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .form-toggle-btn {
+      width: 100%;
+      padding: 15px;
+      border-radius: 15px;
+      border: 2px dashed #667eea;
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .form-toggle-btn:hover {
+      background: rgba(102, 126, 234, 0.2);
+      border-color: #5a67d8;
+      transform: translateY(-2px);
+    }
+
+    .task-form {
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-control {
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+      padding: 12px 16px;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .form-control:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Table Container Styles */
+    .table-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: between;
+      margin-bottom: 25px;
+      color: #4a5568;
+    }
+
+    .table-header h2 {
+      font-weight: 600;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .task-count {
+      background: #667eea;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 8px;
+    }
+
+    .custom-table thead th {
+      background: #f7fafc;
+      color: #4a5568;
+      font-weight: 600;
+      padding: 16px 20px;
+      border: none;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .custom-table thead th:first-child {
+      border-radius: 12px 0 0 12px;
+    }
+
+    .custom-table thead th:last-child {
+      border-radius: 0 12px 12px 0;
+    }
+
+    .custom-table tbody tr {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+    }
+
+    .custom-table tbody tr:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-table tbody td {
+      padding: 20px;
+      border: none;
+      vertical-align: middle;
+    }
+
+    .custom-table tbody td:first-child {
+      border-radius: 12px 0 0 12px;
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    .custom-table tbody td:last-child {
+      border-radius: 0 12px 12px 0;
+    }
+
+    .task-name {
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 4px;
+    }
+
+    .task-description {
+      color: #718096;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      border-radius: 8px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #718096;
+    }
+
+    .empty-state i {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      margin-bottom: 10px;
+      color: #4a5568;
+    }
+
+    .empty-state p {
+      font-size: 1.1rem;
+    }
+
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-section h1 {
+        font-size: 2rem;
+      }
+
+      .form-container,
+      .table-container {
+        padding: 20px;
+        border-radius: 15px;
+      }
+
+      .custom-table {
+        font-size: 0.9rem;
+      }
+
+      .custom-table thead th,
+      .custom-table tbody td {
+        padding: 12px;
+      }
+
+      .task-description {
+        max-width: 200px;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-container">
+    <!-- Hero Section -->
+    <div class="hero-section fade-in">
+      <h1><i class="fas fa-tasks"></i> Task Manager</h1>
+      <p>Organize your life, one task at a time</p>
+    </div>
+
+    <div class="content-wrapper">
+      <!-- Form Container -->
+      <div class="form-container fade-in">
+        <h3><i class="fas fa-plus-circle"></i> Add New Task</h3>
+
+        <!-- Form Toggle Button -->
+        <button type="button" class="form-toggle-btn" onclick="toggleForm()" id="toggleBtn">
+          <i class="fas fa-plus"></i>
+          <span>Click to add a new task</span>
+        </button>
+
+        <!-- Form -->
+        <div class="task-form" style="display: none;" id="form">
+          <form method="POST">
+            <div class="mb-3">
+              <label for="taskName" class="form-label">Task Name</label>
+              <input type="text" class="form-control" id="taskName" name="name" placeholder="Enter your task name..."
+                required>
+            </div>
+
+            <div class="mb-3">
+              <label for="taskDesc" class="form-label">Description</label>
+        
+              <textarea class="form-control" id="taskDesc" name="description" placeholder="Enter task description..."
+                required></textarea>
+            </div>
+
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Save Task
+              </button>
+              <button type="button" class="btn btn-outline-secondary" onclick="cancelForm()">
+                <i class="fas fa-times"></i> Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Table Container -->
+      <div class="table-container fade-in">
+        {% if users | length == 0 %}
+        <div class="empty-state">
+          <i class="fas fa-clipboard-list"></i>
+          <h3>No Tasks Found</h3>
+          <p>Start by adding your first task to get organized!</p>
+        </div>
+        {% else %}
+        <div class="table-header">
+          <h2>
+            <i class="fas fa-list-ul"></i> Your Tasks
+            <span class="task-count">{{ users | length }}</span>
+          </h2>
+        </div>
+
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th width="8%">#</th>
+                <th width="25%">Task</th>
+                <th width="45%">Description</th>
+                <th width="22%">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for id, name, decsription in users %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                  <div class="task-name">{{ name }}</div>
+                </td>
+                <td>
+                  <div class="task-description">{{ decsription }}</div>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <a href="/edit/{{ id }}" class="btn btn-outline-info btn-sm">
+                      <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a href="/delete/{{ id }}" class="btn btn-outline-danger btn-sm">
+                      <i class="fas fa-trash"></i> Delete
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+    crossorigin="anonymous"></script>
+
+  <script>
+    const form = document.getElementById("form");
+    const toggleBtn = document.getElementById("toggleBtn");
+
+    function toggleForm() {
+      if (form.style.display === 'none' || form.style.display === '') {
+        form.style.display = 'block';
+        toggleBtn.innerHTML = '<i class="fas fa-minus"></i><span>Hide form</span>';
+        toggleBtn.style.borderStyle = 'solid';
+        toggleBtn.style.background = 'rgba(220, 38, 38, 0.1)';
+        toggleBtn.style.borderColor = '#dc2626';
+        toggleBtn.style.color = '#dc2626';
+      } else {
+        cancelForm();
+      }
+    }
+
+    function cancelForm() {
+      form.style.display = 'none';
+      toggleBtn.innerHTML = '<i class="fas fa-plus"></i><span>Click to add a new task</span>';
+      toggleBtn.style.borderStyle = 'dashed';
+      toggleBtn.style.background = 'rgba(102, 126, 234, 0.1)';
+      toggleBtn.style.borderColor = '#667eea';
+      toggleBtn.style.color = '#667eea';
+
+      // Clear form fields
+      document.getElementById('taskName').value = '';
+      document.getElementById('taskDesc').value = '';
+    }
+
+    // Legacy function names for compatibility
+    function plus() {
+      toggleForm();
+    }
+
+    function cancel() {
+      cancelForm();
+    }
+
+    // Add some interactive feedback
+    document.addEventListener('DOMContentLoaded', function () {
+      // Add hover effects to table rows
+      const tableRows = document.querySelectorAll('.custom-table tbody tr');
+      tableRows.forEach(row => {
+        row.addEventListener('mouseenter', function () {
+          this.style.transform = 'translateY(-2px)';
+        });
+
+        row.addEventListener('mouseleave', function () {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
