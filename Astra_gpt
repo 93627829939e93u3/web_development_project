@@ -9,9 +9,17 @@
     <meta name="description"
         content="Astra GPT is a powerful AI chatbot with smart conversation, coding help, study assistance and automation support. Fast, responsive and AI powered.">
     <meta name="keywords" content="Astra GPT, AI chatbot, AI assistant, chatbot website, GPT AI">
-   
+    <meta property="og:title" content="Astra GPT – AI Chatbot">
+    <meta property="og:description" content="Smart fast AI chatbot for everyone">
+    <meta property="og:image" content="https://astra-gpt.netlify.app/astra.png">
+    <meta property="og:image" content="https://astra-gpt.netlify.app/favicon-32x32.png">
+    <meta property="og:type" content="website">
 
-    
+
+    <link rel="apple-touch-icon" sizes="512x512" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 
     <meta name="theme-color" content="#ffffff">
     <!-- Fonts -->
@@ -32,7 +40,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-    
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Astra GPT",
+    "applicationCategory": "AI Chatbot",
+    "operatingSystem": "Web",
+    "description": "Astra GPT is an advanced AI chatbot."
+    }
+    </script>
 
     <style>
         :root {
