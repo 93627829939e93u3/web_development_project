@@ -4,8 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astra Chat AI — Ultimate</title>
+    <title>Astra GPT – Powerful AI Chatbot | Smart AI Assistant</title>
 
+    <meta name="description"
+        content="Astra GPT is a powerful AI chatbot with smart conversation, coding help, study assistance and automation support. Fast, responsive and AI powered.">
+    <meta name="keywords" content="Astra GPT, AI chatbot, AI assistant, chatbot website, GPT AI">
+   
+
+    
+
+    <meta name="theme-color" content="#ffffff">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -23,6 +31,8 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    
 
     <style>
         :root {
@@ -69,7 +79,12 @@
             background-attachment: fixed;
             color: var(--text-primary);
             overflow: hidden;
+            /* Prevent body scroll */
             transition: all 0.3s ease;
+            height: 100vh;
+            /* Fallback */
+            height: 100dvh;
+            /* Mobile fix */
         }
 
         /* Glassmorphism Classes */
@@ -365,8 +380,12 @@
             background: var(--user-msg-bg);
             border-radius: 16px 0 16px 16px;
             margin-left: auto;
-            max-width: 400px;
-            width: 100%;
+            max-width: 85%;
+            /* Mobile friendly default */
+            width: fit-content;
+            /* Don't stretch */
+            word-wrap: break-word;
+            /* Prevent overflow */
         }
 
         @media (max-width: 768px) {
@@ -438,7 +457,7 @@
     </style>
 </head>
 
-<body class="h-screen flex text-sm md:text-base">
+<body class="h-[100dvh] flex text-sm md:text-base overflow-hidden">
 
     <!-- SIDEBAR -->
     <aside
@@ -446,11 +465,12 @@
         id="sidebar">
         <div class="p-4 flex items-center gap-3 border-b border-white/5">
             <div
-                class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
-                A</div>
+                class="w-8 h-8 rounded-lg border-radius-50 from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                <img src="astra.png" style="border-radius: 50%;" alt="">
+            </div>
             <h1
                 class="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-                Astra AI</h1>
+                Astra GPT</h1>
         </div>
 
         <div class="p-3 space-y-2">
@@ -470,7 +490,7 @@
         </div>
 
         <!-- Settings / Themes -->
-        <div class="p-3 border-t border-white/5 bg-black/20">
+        <div class="p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] border-t border-white/5 bg-black/20">
             <div class="text-xs text-gray-400 mb-2 px-1">THEME</div>
             <div class="flex gap-2 px-1">
                 <button onclick="setTheme('default')"
@@ -495,9 +515,9 @@
         class="fixed inset-0 bg-black/50 z-10 md:hidden hidden backdrop-blur-sm"></div>
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1 flex flex-col relative h-full">
+    <main class="flex-1 flex flex-col relative h-full overflow-hidden w-full">
         <!-- HEADER -->
-        <header class="h-16 glass flex items-center justify-between px-4 md:px-6 z-10">
+        <header class="h-16 glass flex items-center justify-between px-4 md:px-6 z-10 w-full shrink-0">
             <div class="flex items-center gap-3">
                 <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white"><i
                         class="fa-solid fa-bars text-xl"></i></button>
@@ -520,15 +540,15 @@
             <div
                 class="flex flex-col items-center justify-center h-full text-center text-gray-400 opacity-80 w-full animate-fade-in">
                 <div
-                    class="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 flex items-center justify-center mb-4 border border-white/10">
-                    <i class="fa-solid fa-robot text-4xl text-blue-400"></i>
+                    class="w-20 h-20 rounded-2xl  from-blue-500/20 to-purple-600/20 flex items-center justify-center mb-4 ">
+                    <img src="astra.png" alt="">
                 </div>
                 <h3 class="text-2xl font-bold text-white mb-2">How can I help you?</h3>
                 <p class="max-w-md">I can write code, generate images, analyze text, and export our conversation to PDF.
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-8 w-full max-w-lg text-left">
-                    <button onclick="setInput('Generate an image of a futuristic city')"
+                    <button onclick="setInput('/image a futuristic city')"
                         class="glass p-3 rounded-xl hover:bg-white/5 transition flex items-center">
                         <i class="fa-solid fa-image text-purple-400 mr-2"></i> <span>Generate Image</span>
                     </button>
@@ -549,13 +569,14 @@
         </template>
 
         <!-- CHAT VIEW -->
-        <div id="view-chat" class="flex-1 flex flex-col overflow-hidden relative">
-            <div id="chatbox" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 scroll-smooth">
+        <div id="view-chat" class="flex-1 flex flex-col overflow-hidden relative w-full">
+            <div id="chatbox" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 scroll-smooth w-full">
                 <!-- Chat content goes here -->
             </div>
 
             <!-- INPUT AREA -->
-            <div class="p-4 md:p-6 glass border-t border-t-white/5">
+            <div
+                class="p-4 md:p-6 pb-6 md:pb-6 mb-6 md:mb-0 safe-pb glass border-t border-t-white/5 w-full shrink-0 z-20">
                 <div class="relative max-w-4xl mx-auto">
                     <div id="typing-indicator"
                         class="hidden absolute -top-8 left-0 text-xs text-muted flex items-center gap-1 pl-2">
@@ -598,6 +619,21 @@
 
     </main>
 
+    <style>
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .safe-pb {
+                padding-bottom: calc(2rem + env(safe-area-inset-bottom)) !important;
+            }
+
+            @media (min-width: 768px) {
+                .safe-pb {
+                    padding-bottom: 1.5rem !important;
+                    /* md:p-6 equivalency */
+                }
+            }
+        }
+    </style>
+
     <!-- IMAGE MODAL -->
     <div id="imgModal" class="modal" onclick="closeModal(event)">
         <div class="relative max-w-4xl w-full p-4 flex flex-col items-center">
@@ -607,10 +643,9 @@
             </button>
             <img id="modalImg" src="" class="max-h-[80vh] rounded-lg shadow-2xl border border-white/10">
             <div class="flex gap-4 mt-4">
-                <a id="downloadLink" href="#" download="astra-image.png"
-                    class="btn-primary py-2 px-6 rounded-full flex items-center gap-2">
+                <button id="downloadBtn" class="btn-primary py-2 px-6 rounded-full flex items-center gap-2">
                     <i class="fa-solid fa-download"></i> Download
-                </a>
+                </button>
                 <button onclick="copyModalLink()"
                     class="glass py-2 px-6 rounded-full hover:bg-white/10 flex items-center gap-2">
                     <i class="fa-solid fa-link"></i> Copy URL
@@ -621,12 +656,15 @@
 
     <script>
         /******** SYSTEM PROMPT *********/
-        const SYS = `You are Astra AI, an advanced, helpful, and creative assistant developed by Ganesh Raut.
+        const SYS = `You are Astra GPT, an advanced, helpful, and creative assistant developed by Ganesh Raut.
+- You are an expert Full Stack Developer capable of building complex applications (e.g., E-commerce, Social Media).
+- When asked for code, provide DETAILED, step-by-step file outputs.
+- Do not summarize code; provide the FULL implementation.
+- For big projects, break down the response into logical steps and multiple files.
+- Aim for maximum detail and robustness in your code generation.
 - Format responses in clean, readable Markdown.
 - Use headers for sections.
 - Use code blocks with language tags for code.
-- Use lists and bullet points for clarity.
-- Be concise but friendly.
 - If asking for an image, respond with "Generating image..." and context.`;
 
         /******** API CONFIG *********/
@@ -636,6 +674,7 @@
         /******** STATE *********/
         let chats = JSON.parse(localStorage.getItem("astra_chats_v2") || "[]");
         let gallery = JSON.parse(localStorage.getItem("astra_gallery_v2") || "[]");
+        let dataset = localStorage.getItem("astra_dataset") || "";
         let currentChat = null;
         let currentTheme = localStorage.getItem("astra_theme") || "default";
 
@@ -801,9 +840,24 @@
             document.getElementById("typing-indicator").classList.remove("hidden");
 
             try {
-                if (text.toLowerCase().startsWith("/image")) {
+                const lowerText = text.toLowerCase();
+                if (lowerText.startsWith("/image")) {
                     await handleImageGeneration(text.replace("/image", "").trim());
+                } else if (lowerText === "/forget") {
+                    dataset = "";
+                    localStorage.removeItem("astra_dataset");
+                    appendMessageUI({ role: 'bot', content: "I have cleared my local knowledge base." });
+                } else if (lowerText === "/dataset") {
+                    if (dataset) {
+                        appendMessageUI({ role: 'bot', content: "### My Current Knowledge:\n" + dataset });
+                    } else {
+                        appendMessageUI({ role: 'bot', content: "I don't have any custom knowledge saved yet. Just chat with me!" });
+                    }
                 } else {
+                    // Auto-learn: Save every message
+                    dataset = dataset ? dataset + "\n" + text : text;
+                    localStorage.setItem("astra_dataset", dataset);
+
                     await handleTextGeneration(text);
                 }
             } catch (e) {
@@ -858,8 +912,15 @@
 
         async function handleTextGeneration(prompt) {
             const history = currentChat.messages.map(m => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`).join("\n");
+
+            // Inject Dataset into System Prompt
+            let dynamicSys = SYS;
+            if (dataset) {
+                dynamicSys += `\n\n[USER PERSONAL KNOWLEDGE BASE]\n${dataset}\n[END KNOWLEDGE BASE]\nUse the above knowledge to answer if relevant.`;
+            }
+
             // Improve system prompt context
-            const fullPrompt = `${SYS}\n\n${history}\nAssistant:`;
+            const fullPrompt = `${dynamicSys}\n\n${history}\nAssistant:`;
 
             const res = await fetch(TEXT_API, {
                 method: 'POST',
@@ -971,14 +1032,18 @@
             <img src="${url}" class="w-full h-auto cursor-pointer" onclick="openModal('${url}')">
                 <div class="px-3 py-2 bg-black/40 flex justify-between items-center text-xs">
                     <span>Generated Image</span>
-                    <a href="${url}" download class="text-blue-400 hover:text-blue-300"><i class="fa-solid fa-download"></i></a>
+                    <button onclick="downloadImage('${url}')" class="text-blue-400 hover:text-blue-300"><i class="fa-solid fa-download"></i></button>
                 </div>
             </div>`;
             } else {
                 div.innerText = msg.content;
             }
 
-            scrollToBottom();
+            if (stream) {
+                scrollToBottom(false); // Smart scroll during streaming
+            } else {
+                scrollToBottom(true); // Force scroll on new message start/end
+            }
         }
 
         function copyCode(btn) {
@@ -1011,7 +1076,7 @@
             <img src="${item.url}" loading="lazy">
             <div class="gallery-overlay">
                 <button onclick="openModal('${item.url}')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur text-white flex items-center justify-center transition"><i class="fa-solid fa-eye"></i></button>
-                <a href="${item.url}" download class="w-10 h-10 rounded-full bg-blue-500/80 hover:bg-blue-600 text-white flex items-center justify-center transition"><i class="fa-solid fa-download"></i></a>
+                <button onclick="downloadImage('${item.url}')" class="w-10 h-10 rounded-full bg-blue-500/80 hover:bg-blue-600 text-white flex items-center justify-center transition"><i class="fa-solid fa-download"></i></button>
             </div>
         `;
                 grid.appendChild(el);
@@ -1019,9 +1084,14 @@
         }
 
         /******** UTILS *********/
-        function scrollToBottom() {
+        function scrollToBottom(force = false) {
             const box = document.getElementById("chatbox");
-            box.scrollTop = box.scrollHeight;
+            const threshold = 100; // px
+            const isNearBottom = box.scrollHeight - box.scrollTop - box.clientHeight <= threshold;
+
+            if (force || isNearBottom) {
+                box.scrollTop = box.scrollHeight;
+            }
         }
 
         function saveData() {
@@ -1040,7 +1110,7 @@
         function openModal(url) {
             const m = document.getElementById("imgModal");
             document.getElementById("modalImg").src = url;
-            document.getElementById("downloadLink").href = url;
+            document.getElementById("downloadBtn").onclick = () => downloadImage(url);
             m.classList.add("open");
         }
         function closeModal(e) {
@@ -1052,6 +1122,26 @@
             const url = document.getElementById("modalImg").src;
             navigator.clipboard.writeText(url);
             alert("Copied to clipboard!");
+        }
+
+        async function downloadImage(url) {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = "astra-generated-" + Date.now() + ".png";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(blobUrl);
+            } catch (error) {
+                console.error('Download failed:', error);
+                // Fallback
+                window.open(url, '_blank');
+            }
         }
 
         /******** EXPORT PDF *********/
